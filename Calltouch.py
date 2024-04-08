@@ -9,7 +9,7 @@ db = Asterisk()
 
 def send_calls():
     db.connect()
-    calls = db.get_calls()
+    calls = db.get_calls()  # '2024-04-06'
     if len(calls) == 0:
         logging.log(logging.INFO, 'Nothing to send.')
     for call in calls:
@@ -25,9 +25,9 @@ def send_calls():
         payload['date'] = call_date
         payload['duration'] = call[5]
         try:
-            logging.log(logging.INFO, payload)
+            logging.log(logging.INFO, {'src': call_src, 'dst': call_dst, 'date': call_date, 'id': unique_id})
             result = requests.get(ATS_URL,
-                                  params={'src': call_src, 'dst': call_dst, 'date': call_date, 'id': unique_id})
+                                  params=payload)
         except requests.exceptions.RequestException as e:
             logging.log(logging.ERROR, e)
         else:
