@@ -1,0 +1,18 @@
+[Unit]
+Description=Calltouch API service
+After=syslog.target
+After=network.target
+After=mysql.service
+Requires=mysql.service
+
+[Service]
+Type=simple
+PIDFile=/opt/calltouch/service.pid
+WorkingDirectory=/opt/calltouch
+User=calltouch
+Group=calltouch
+ExecStart=/opt/calltouch/venv/bin/python /opt/calltouch/Calltouch.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
