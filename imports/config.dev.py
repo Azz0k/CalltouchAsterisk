@@ -14,3 +14,4 @@ if platform.system() == 'Windows':
 else:
     LOG_FILE_NAME = r'/var/log/calltouch.log'
 WORKER_DELAY_IN_SECONDS = 60 * 60
+EXCLUDED_NUMBERS = ['12910303', '12910314', '12910315']

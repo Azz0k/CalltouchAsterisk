@@ -23,11 +23,14 @@ class Asterisk:
         if not date.endswith('%'):
             date = date + '%'
         cursor = self.db.cursor()
+        #query = 'SELECT uniqueid, src,dst,realdst,calldate,duration,userfield FROM cdr WHERE calldate like %s  and ' \
+        #        'disposition="ANSWERED" and realdst like "12%" and ' \
+        #        'src like "3%" and realdst!="12910303" and userfield="";'
         query = 'SELECT uniqueid, src,dst,realdst,calldate,duration,userfield FROM cdr WHERE calldate like %s  and ' \
                 'disposition="ANSWERED" and realdst like "12%" and ' \
-                'src like "3%" and realdst!="12910303" and userfield="";'
+                'src like "3%" and userfield="";'
         cursor.execute(query, (date,))
-        result = cursor.fetchall()
+        result = [x for x in cursor.fetchall() if x[3] not in EXCLUDED_NUMBERS]
         cursor.close()
         return result
 
